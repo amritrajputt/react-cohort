@@ -21,7 +21,7 @@ function App() {
     <>
       <div>counter app that changes count every 1 second using useEffect</div>
       <h1>Count{count}</h1>
-      <button onClick={IncreaseCount}>Increase </button>
+      <button onClick={IncreaseCount}>Increase Count</button>
     </>
   )
 }
