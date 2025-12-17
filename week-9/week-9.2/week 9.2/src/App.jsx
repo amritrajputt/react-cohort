@@ -1,28 +1,59 @@
-import { useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
+let count = 3
 function App() {
-  const [count, setCount] = useState(0)
-  
-    useEffect(() => {
-     const id =  setInterval(() => {
-        setCount(count => count+1)
-      },1000)
-      
-    }, [])
-
-  function IncreaseCount(){
-    setCount(count+1)
+  const [todos, settodos] = useState([{
+    id: 1,
+    title: "go to gym",
+    description: "go to gym at 8:00"
+  },
+  {
+    id: 2,
+    title: "go to gym",
+    description: "go to gym at 8:00"
+  },
+  {
+    id: 3,
+    title: "go to gym",
+    description: "go to gym at 8:00"
+  }])
+  function addtodo() {
+    settodos([...todos, {
+      id: ++count,
+      title: "go to home",
+      description: "go home right now"
+    }])
   }
 
-   return (
-    <>
-      <div>counter app that changes count every 1 second using useEffect</div>
-      <h1>Count{count}</h1>
-      <button onClick={IncreaseCount}>Increase Count</button>
-    </>
+  return (
+    <div>
+      <button onClick={addtodo}>Add a todo</button>
+      {todos.map(todo => <Todo key={todo.id} title={todo.title} description={todo.description} />)}
+    </div>
+  )
+}
+
+// const Header = memo(
+//   function Header({ title }) {
+//     return (
+//       <div>
+//         {title}
+//       </div>
+//     )
+//   })
+
+function Todo({ title, description }) {
+  return (
+    <div>
+      <h1>
+        {title}
+      </h1>
+      <h5>
+        {description}
+      </h5>
+    </div>
   )
 }
 
