@@ -20,6 +20,7 @@ function App() {
   )
 }
 
+// using memo hook
 
 // const Header = memo(
 //   function Header({ title }) {
