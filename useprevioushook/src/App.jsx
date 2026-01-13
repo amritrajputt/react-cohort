@@ -7,9 +7,15 @@ import { useEffect } from 'react'
 
 const usePrevious = (value) => {
   const ref = useRef()
+  console.log("hii from upside of useeffect");
+  
   useEffect(() => {
+    console.log("hii from inside of useeffect");
     ref.current = value
+
   }, [value])
+  console.log(ref.current);
+  //phle ref.current return ho ja rhi h then useeffect p ja rhi h
   return ref.current
 }
 
