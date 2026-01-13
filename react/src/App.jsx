@@ -6,7 +6,6 @@ import viteLogo from '/vite.svg'
 function App() {
   return (
     <div>
-      foodVilla
       <Header/>
     </div>
   )
@@ -14,7 +13,7 @@ function App() {
 
 function Header(){
   return (
-  <div style={{display:'flex',float:'right', justifyContent:'space-between', margin:'10px', border: "1px solid black"}}>
+  <div style={{display:'flex',float:'right', justifyContent:'space-around', margin:'10px', border: "1px solid black"}}>
 <App/>
      <div >
           
