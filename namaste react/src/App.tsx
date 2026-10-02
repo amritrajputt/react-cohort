@@ -1,5 +1,6 @@
 import reactLogo from './assets/react.svg'
 import './App.css'
+import { useState } from 'react';
 
 function Header() {
   return (
@@ -17,40 +18,84 @@ function Header() {
     </header>
   )
 }
-const cardData = [
+
+type CardItem = {
+  id: number
+  title: string
+  description: string
+  url: string
+}
+
+const initialCardData: CardItem[] = [
   {
-    id:1,
+    id: 1,
     title: 'Namaste',
     description: 'Namaste is a free and open-source React component library that helps you build beautiful and accessible web applications.',
     url: 'https://imgs.search.brave.com/_6izdbSVpHbwqbawMBquENAqLf6WtvwCZmTG8AhitpY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/ZnJvbnQuZnJlZXBp/ay5jb20vaG9tZS9h/bm9uLXJ2bXAvY3Jl/YXRpdmUtc3VpdGUv/cGhvdG9ncmFwaHkv/Y2hhbmdlLWxvY2F0/aW9uLndlYnA'
   },
   {
-    id:2,
+    id: 2,
     title: 'Accessibility',
     description: 'Namaste is designed to be accessible and inclusive, with features like keyboard navigation, screen reader support, and high contrast themes.',
-    url: 'https://imgs.search.brave.com/_6izdbSVpHbwqbawMBquENAqLf6WtvwCZmTG8AhitpY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/ZnJvbnQuZnJlZXBp/ay5jb20vaG9tZS9h/bm9uLXJ2bXAvY3Jl/YXRpdmUtc3VpdGUv/cGhvdG9ncmFwaHkv/Y2hhbmdlLWxvY2F0/aW9uLndlYnA' 
+    url: 'https://imgs.search.brave.com/_6izdbSVpHbwqbawMBquENAqLf6WtvwCZmTG8AhitpY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/ZnJvbnQuZnJlZXBp/ay5jb20vaG9tZS9h/bm9uLXJ2bXAvY3Jl/YXRpdmUtc3VpdGUv/cGhvdG9ncmFwaHkv/Y2hhbmdlLWxvY2F0/aW9uLndlYnA'
   },
   {
-    id:3,
+    id: 3,
     title: 'Performance',
     description: 'Namaste is built with performance in mind, with optimized bundle sizes and fast load times.',
     url: 'https://imgs.search.brave.com/_6izdbSVpHbwqbawMBquENAqLf6WtvwCZmTG8AhitpY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/ZnJvbnQuZnJlZXBp/ay5jb20vaG9tZS9h/bm9uLXJ2bXAvY3Jl/YXRpdmUtc3VpdGUv/cGhvdG9ncmFwaHkv/Y2hhbmdlLWxvY2F0/aW9uLndlYnA'
   },
   {
-    id:4,
+    id: 4,
     title: 'Customization',
     description: 'Namaste is highly customizable, allowing you to tailor the components to your specific needs.',
     url: 'https://imgs.search.brave.com/_6izdbSVpHbwqbawMBquENAqLf6WtvwCZmTG8AhitpY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/ZnJvbnQuZnJlZXBp/ay5jb20vaG9tZS9h/bm9uLXJ2bXAvY3Jl/YXRpdmUtc3VpdGUv/cGhvdG9ncmFwaHkv/Y2hhbmdlLWxvY2F0/aW9uLndlYnA'
-    }
-  ]
-function Body() {
+  }
+]
+
+
+function InputCard({ addCard }: { addCard: (newCard: CardItem) => void }) {
+  const [title, setTitle] = useState('')
+  const [url, setUrl] = useState('')
+  const [description, setDescription] = useState('')
+
+  function handleAdd() {
+    if (!title.trim() || !description.trim() || !url.trim()) return
+
+    addCard({
+      id: Date.now(),
+      title: title.trim(),
+      description: description.trim(),
+      url: url.trim(),
+    })
+
+    setTitle('')
+    setDescription('')
+    setUrl('')
+  }
+
   return (
-    <div className="body" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      {
-        cardData.map((data) => (
-          <Card key={data.id} title={data.title} url={data.url} description={data.description} />
-        ))
-      }
+    <div className="input-card">
+      <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      <input placeholder="URL" value={url} onChange={(e) => setUrl(e.target.value)} />
+      <button onClick={handleAdd}>Add</button>
+    </div>
+  )
+}
+
+
+
+
+
+
+
+function Body({ cards }: { cards: CardItem[] }) {
+  return (
+    <div className="body">
+      {cards.map((data) => (
+        <Card key={data.id} title={data.title} url={data.url} description={data.description} />
+      ))}
     </div>
   )
 }
@@ -78,10 +123,17 @@ function Footer() {
   )
 }
 function App() {
+  const [cards, setCards] = useState<CardItem[]>(initialCardData)
+
+  const addCard = (newCard: CardItem) => {
+    setCards((prevCards) => [...prevCards, newCard])
+  }
+
   return (
     <div className="App">
       <Header />
-      <Body />
+      <InputCard addCard={addCard} />
+      <Body cards={cards} />
       <Footer />
     </div>
   )
